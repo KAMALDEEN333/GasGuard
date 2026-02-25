@@ -148,13 +148,12 @@ export class SuspiciousGasDetectionService {
   async detectFrequencyAnomaly(transaction: TransactionData): Promise<DetectionResult> {
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
     
-    const recentTxCount = await this.transactionRepository.count({
-      where: {
-        merchantId: transaction.accountAddress,
-        chainId: transaction.chainId.toString(),
-        createdAt: MoreThan(oneHourAgo),
-      },
-    });
+    const recentTxCount = await this.transactionRepository
+      .createQueryBuilder('tx')
+      .where('tx.merchantId = :account', { account: transaction.accountAddress })
+      .andWhere('tx.chainId = :chainId', { chainId: transaction.chainId.toString() })
+      .andWhere('tx.createdAt > :oneHourAgo', { oneHourAgo })
+      .getCount();
 
     const baseline = await this.getOrComputeBaseline(
       transaction.accountAddress,
