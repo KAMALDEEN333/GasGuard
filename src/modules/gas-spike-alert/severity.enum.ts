@@ -1,0 +1,12 @@
+export enum Severity {
+  INFO = 'Info',
+  WARNING = 'Warning',
+  CRITICAL = 'Critical',
+}
+
+export enum SpikeType {
+  BASE_FEE_PERCENTAGE = 'BASE_FEE_PERCENTAGE',
+  ABSOLUTE_THRESHOLD = 'ABSOLUTE_THRESHOLD',
+  VOLATILITY_INDEX = 'VOLATILITY_INDEX',
+  PRIORITY_FEE_SURGE = 'PRIORITY_FEE_SURGE',
+}
